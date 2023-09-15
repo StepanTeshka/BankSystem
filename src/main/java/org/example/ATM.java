@@ -18,4 +18,6 @@ public interface ATM {
 
     void blockCard();
 
+    void registerUser();
+
 }

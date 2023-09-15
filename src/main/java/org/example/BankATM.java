@@ -174,4 +174,9 @@ public class BankATM implements ATM {
         System.out.println("Вы заблакированны");
         currentCard.setIsBlocked(true);
     }
+
+    @Override
+    public void registerUser() {
+
+    }
 }
