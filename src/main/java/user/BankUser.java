@@ -1,4 +1,4 @@
-package org.example;
+package user;
 
 public interface BankUser {
     String getUserName();
