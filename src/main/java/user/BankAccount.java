@@ -13,11 +13,14 @@ public class BankAccount implements BankUser {
 
     private String password;
 
-    public BankAccount(String userName, int accountId, double accountBalance, BankCard userCard) {
+    public BankAccount(String userName, int accountId, double accountBalance, BankCard userCard, long phoneNumber, String password) {
         this.userName = userName;
         this.accountId = accountId;
         this.accountBalance = accountBalance;
         this.userCard = userCard;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+
     }
 
     @Override

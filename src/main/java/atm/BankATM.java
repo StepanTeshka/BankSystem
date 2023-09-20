@@ -18,8 +18,8 @@ public class BankATM implements ATM {
     public BankCard card1 = new BankCard(123456,1234,123);
     public BankCard card2 = new BankCard(654321,4321,321);
 
-    public BankAccount user1 = new BankAccount("Stepan",1,1234, card1);
-    public BankAccount user2 = new BankAccount("Slayik",2,4321, card2);
+    public BankAccount user1 = new BankAccount("Stepan",1,1234, card1, 9999, "1234");
+    public BankAccount user2 = new BankAccount("Slayik",2,4321, card2, 0, "");
 
     public BankATM(){
         addCardsAndUsers();
@@ -158,7 +158,7 @@ public class BankATM implements ATM {
 
     @Override
     public void deposit(double amount) {
-        double x =currentUser.getAccountBalance();
+        double x = currentUser.getAccountBalance();
         if (amount > 0) {
             currentUser.setAccountBalance(x += amount);
             System.out.println("Успешно положили " + amount + "У вас на счету стало: " + x);
@@ -191,20 +191,22 @@ public class BankATM implements ATM {
         currentCard.setIsBlocked(true);
     }
 
+
     @Override
-    public void registerUser(String phone, String password, int cardnumber) {
-
-
+    public void registerUser(long phone, String password, BankCard card) {
+        BankAccount newUser = new BankAccount("Account1",bankAccounts.size(),0, card,phone,password);
+        bankAccounts.add(newUser);
+        System.out.println(bankAccounts);
     }
 
     @Override
     public void ask() {
-        System.out.println("Войти в аккаунт - 1");
+        System.out.println("Войти в приложение - 1");
         System.out.println("Вставить карту в банкомат - 2");
         int command = CheckTypeInput.integer();
         if (command != -1 ){
             if (command == 1){
-                PhoneApp phoneApp = new PhoneApp();
+                PhoneApp phoneApp = new PhoneApp(this);
                 phoneApp.enterInApp();
             } else {
                 if (command == 2){

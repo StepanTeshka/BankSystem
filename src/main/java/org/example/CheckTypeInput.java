@@ -11,7 +11,7 @@ public class CheckTypeInput {
             return -1;
         }
     }
-    public double Double() {
+    public static double Double() {
         Scanner sc = new Scanner(System.in);
         double x;
         try {

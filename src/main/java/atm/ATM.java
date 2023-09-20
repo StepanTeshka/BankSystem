@@ -1,4 +1,5 @@
 package atm;
+import user.BankCard;
 import user.BankUser;
 
 public interface ATM {
@@ -18,7 +19,7 @@ public interface ATM {
 
     void blockCard();
 
-    void registerUser(String phone, String password, int cardnumber);
+    void registerUser(long phone, String password, BankCard card);
 
     void ask();
 
