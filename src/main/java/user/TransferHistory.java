@@ -15,9 +15,10 @@ public class TransferHistory {
 
     private boolean type;
 
-    public TransferHistory(double value, long toUserNumber, LocalDate date, LocalTime time, DayOfWeek day, boolean type) {
+    public TransferHistory(double value, long toUserNumber, LocalDate date, LocalTime time, DayOfWeek day, boolean type, ZoneId zone) {
         this.value = value;
         this.toUserNumber = toUserNumber;
+        this.zone = zone;
         this.date = date;
         this.time = time;
         this.day = day;

@@ -5,7 +5,7 @@ import atm.*;
 import user.*;
 
 import org.example.CheckTypeInput;
-
+import java.util.Calendar;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -204,8 +204,8 @@ public class PhoneApp implements PhoneAppInterface {
                 if (amount > 0 && amount <= x) {
                     anotherUser.setAccountBalance(x -= amount);
                     System.out.println("Успешно перевели " + amount + "У вас на счету стало: " + x);
-                    currentUser.addTransferHistory(new TransferHistory(amount, anoterPhoneNumber, LocalDate.now(), LocalTime.now(), LocalDate.now().getDayOfWeek(), true));
-                    anotherUser.addTransferHistory(new TransferHistory(amount, phoneNumber, LocalDate.now(), LocalTime.now(), LocalDate.now().getDayOfWeek(), false));
+                    currentUser.addTransferHistory(new TransferHistory(amount, anoterPhoneNumber, LocalDate.now(), LocalTime.now(), LocalDate.now().getDayOfWeek(), true, Calendar.getInstance().getTimeZone().toZoneId()));
+                    anotherUser.addTransferHistory(new TransferHistory(amount, phoneNumber, LocalDate.now(), LocalTime.now(), LocalDate.now().getDayOfWeek(), false,Calendar.getInstance().getTimeZone().toZoneId()));
                 } else {
                     System.out.println("Вы ввели не допустимую сумму");
                 }
