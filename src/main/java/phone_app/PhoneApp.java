@@ -6,17 +6,23 @@ import user.*;
 
 import org.example.CheckTypeInput;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class PhoneApp implements PhoneAppInterface {
     public ArrayList<BankCard> cards = new ArrayList<BankCard>();
-    long phoneNumber;
-    String password;
+    private long phoneNumber;
+    private String password;
     public BankATM bank;
     public ArrayList<BankAccount> bankAccounts = new ArrayList<>();
-    int currentCardNumber;
+    public int currentCardNumber;
 
     public BankAccount currentUser;
+    public BankAccount anotherUser;
 
     private BankCard bankCard;
 
@@ -150,6 +156,7 @@ public class PhoneApp implements PhoneAppInterface {
         } else return false;
     }
 
+
     @Override
     public void checkUserPassword(BankUser user) {
 
@@ -183,20 +190,33 @@ public class PhoneApp implements PhoneAppInterface {
 
     @Override
     public void withdraw(double amount) {
-        System.out.print("Напишите сумму: ");
-        amount = CheckTypeInput.Double();
-        if (amount != -1) {
-            double x = currentUser.getAccountBalance();
-            if (amount > 0 && amount <= x) {
-
-                currentUser.setAccountBalance(x -= amount);
-                System.out.println("Успешно сняли " + amount + "У вас на счету стало: " + x);
-            } else {
-                System.out.println("Вы ввели не допустимую сумму");
-            }
-        }else {
+        System.out.print("Номер телефона для перевода: ");
+        long anoterPhoneNumber = CheckTypeInput.integer();
+        if (anoterPhoneNumber == -1) {
             System.out.println("Ввели не тот тип данных");
-            consoleInterface();
+            withdraw(0);
+        } else {
+            if(findAnotherUserPhone(anoterPhoneNumber)){
+            System.out.print("Напишите сумму перевода: ");
+            amount = CheckTypeInput.Double();
+            if (amount != -1) {
+                double x = anotherUser.getAccountBalance();
+                if (amount > 0 && amount <= x) {
+                    anotherUser.setAccountBalance(x -= amount);
+                    System.out.println("Успешно перевели " + amount + "У вас на счету стало: " + x);
+                    currentUser.addTransferHistory(new TransferHistory(amount, anoterPhoneNumber, LocalDate.now(), LocalTime.now(), LocalDate.now().getDayOfWeek(), true));
+                    anotherUser.addTransferHistory(new TransferHistory(amount, phoneNumber, LocalDate.now(), LocalTime.now(), LocalDate.now().getDayOfWeek(), false));
+                } else {
+                    System.out.println("Вы ввели не допустимую сумму");
+                }
+            } else {
+                System.out.println("Ввели не тот тип данных");
+                consoleInterface();
+                }
+            } else {
+                System.out.println("Пользователь не найден с таким номером телефона");
+                withdraw(0);
+            }
         }
     }
 
@@ -204,7 +224,7 @@ public class PhoneApp implements PhoneAppInterface {
     public void consoleInterface() {
         int command;
         while (true){
-            System.out.println("Выбирите действие: \n 1-выйти \n 2-снять деньги \n 3-пополнить");
+            System.out.println("Выбирите действие: \n 1-выйти \n 2-перевести деньги \n 3-пополнить \n 4-история переводов \n");
             command = CheckTypeInput.integer();
             if(command == -1) System.out.println("Вы ввели не правильный тип данных");
             else {
@@ -212,9 +232,31 @@ public class PhoneApp implements PhoneAppInterface {
                     case 1 -> exiteApp();
                     case 2 -> withdraw(30);
                     case 3 -> deposit(30);
+                    case 4 -> printHistory();
                 }
             }
         }
+    }
+
+    @Override
+    public void printHistory() {
+        currentUser.printTransferHistory();
+    }
+
+    @Override
+    public boolean findAnotherUserPhone(long phoneNumber) {
+        boolean isFind = false;
+        bankAccounts = bank.bankAccounts;
+        for (int i = 0; i < bankAccounts.size(); i++){
+            if(bankAccounts.get(i).getPhoneNumber() == phoneNumber){
+                anotherUser = bankAccounts.get(i);
+                isFind = true;
+                break;
+            }
+        }
+        if(isFind){
+            return true;
+        } else return false;
     }
 
 }

@@ -17,4 +17,6 @@ public interface PhoneAppInterface {
     void deposit(double amount);
     void withdraw(double amount);
     void consoleInterface();
+    void printHistory();
+    boolean findAnotherUserPhone(long phoneNumber);
 }

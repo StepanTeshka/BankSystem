@@ -3,6 +3,9 @@ package user;
 import user.BankCard;
 import user.BankUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BankAccount implements BankUser {
     private String userName;
     private int accountId;
@@ -12,6 +15,8 @@ public class BankAccount implements BankUser {
     private long phoneNumber;
 
     private String password;
+
+    List<TransferHistory> transferHistories = new ArrayList<TransferHistory>();
 
     public BankAccount(String userName, int accountId, double accountBalance, BankCard userCard, long phoneNumber, String password) {
         this.userName = userName;
@@ -41,6 +46,19 @@ public class BankAccount implements BankUser {
     public BankCard getUserCard() {
         return userCard;
     }
+
+    @Override
+    public void addTransferHistory(TransferHistory transfer) {
+        transferHistories.add(transfer);
+    }
+
+    @Override
+    public void printTransferHistory() {
+        for (int i = 0; i < transferHistories.size(); i++){
+            transferHistories.get(i).printInfo();
+        }
+    }
+
     @Override
     public void setAccountBalance(double accountBalance) {
         this.accountBalance = accountBalance;

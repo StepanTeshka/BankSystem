@@ -6,4 +6,7 @@ public interface BankUser {
     double getAccountBalance();
     void setAccountBalance(double accountBalance);
     BankCard getUserCard();
+
+    void addTransferHistory(TransferHistory transfer);
+    void printTransferHistory();
 }
