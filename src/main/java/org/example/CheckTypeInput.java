@@ -1,7 +1,7 @@
 package org.example;
 import java.util.Scanner;
 public class CheckTypeInput {
-    public int integer() {
+    public static int integer() {
         Scanner sc = new Scanner(System.in);
         int x;
         try {
@@ -11,11 +11,31 @@ public class CheckTypeInput {
             return -1;
         }
     }
-    public double Double() {
+    public static double Double() {
         Scanner sc = new Scanner(System.in);
         double x;
         try {
             x = sc.nextDouble();
+            return x;
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+    public static String string() {
+        Scanner sc = new Scanner(System.in);
+        String x;
+        try {
+            x = sc.nextLine();
+            return x;
+        } catch (Exception e) {
+            return "-";
+        }
+    }
+    public static long longe() {
+        Scanner sc = new Scanner(System.in);
+        long x;
+        try {
+            x = sc.nextLong();
             return x;
         } catch (Exception e) {
             return -1;

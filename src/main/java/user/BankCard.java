@@ -1,14 +1,26 @@
-package org.example;
+package user;
 public class BankCard {
     private int cardNumber;
     private int pinCode;
     private int cvv;
     private boolean isBlocked;
 
+    private long phoneNumber;
+
+    private String password;
+
     public BankCard(int cardNumber, int pinCode, int cvv) {
         this.cardNumber = cardNumber;
         this.pinCode = pinCode;
         this.cvv = cvv;
+    }
+
+    public long getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(long phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public int getCardNumber() {
@@ -27,5 +39,13 @@ public class BankCard {
     }
     public void setIsBlocked(boolean isBlocked) {
         this.isBlocked = isBlocked;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

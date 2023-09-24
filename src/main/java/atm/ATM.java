@@ -1,5 +1,6 @@
-package org.example;
-import java.util.ArrayList;
+package atm;
+import user.BankCard;
+import user.BankUser;
 
 public interface ATM {
     void insertCard(int cardNumber);
@@ -17,5 +18,9 @@ public interface ATM {
     void ejectCard();
 
     void blockCard();
+
+    void registerUser(long phone, String password, BankCard card);
+
+    void ask();
 
 }

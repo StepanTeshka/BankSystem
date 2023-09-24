@@ -1,4 +1,9 @@
-package org.example;
+package atm;
+import phone_app.PhoneApp;
+import user.BankAccount;
+import user.BankCard;
+import user.BankUser;
+import org.example.CheckTypeInput;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -12,20 +17,31 @@ public class BankATM implements ATM {
     public ArrayList<BankAccount> bankAccounts = new ArrayList<>();
     public BankCard card1 = new BankCard(123456,1234,123);
     public BankCard card2 = new BankCard(654321,4321,321);
-    public BankAccount user1 = new BankAccount("Stepan",1,1234, card1);
-    public BankAccount user2 = new BankAccount("Slayik",2,4321, card2);
-    CheckTypeInput cti = new CheckTypeInput();
+
+    public BankAccount user1 = new BankAccount("Stepan",1,1234, card1, 9999, "1234");
+    public BankAccount user2 = new BankAccount("Slayik",2,4321, card2, 0, "");
+
+    public BankATM(){
+        addCardsAndUsers();
+    }
+
+    public void addCardsAndUsers(){
+        cards.add(card1);
+        cards.add(card2);
+        bankAccounts.add(user1);
+        bankAccounts.add(user2);
+    }
     private int checkMethod() {
         System.out.println("Что бы посмотреть баланс введите 1");
         System.out.println("Что бы положить деньги введите 2");
         System.out.println("Что бы снять деньги введите 3");
         System.out.println("Что бы выйти с терминала введите 4");
-        int method = cti.integer();
+        int method = CheckTypeInput.integer();
         return method;
     }
     private int checkPinCode() {
         System.out.println("Введите пин-код:");
-        int pinCode = cti.integer();
+        int pinCode = CheckTypeInput.integer();
         return pinCode;
     }
     private double checkMethodsTwo() {
@@ -44,7 +60,7 @@ public class BankATM implements ATM {
             bankAccounts.add(user1);
             bankAccounts.add(user2);
             System.out.println("Введите номер карты:");
-            int card = cti.integer();
+            int card = CheckTypeInput.integer();
             if (card > 0) {
                 insertCard(card);
                 next = true;
@@ -142,7 +158,7 @@ public class BankATM implements ATM {
 
     @Override
     public void deposit(double amount) {
-        double x =currentUser.getAccountBalance();
+        double x = currentUser.getAccountBalance();
         if (amount > 0) {
             currentUser.setAccountBalance(x += amount);
             System.out.println("Успешно положили " + amount + "У вас на счету стало: " + x);
@@ -173,5 +189,38 @@ public class BankATM implements ATM {
     public void blockCard() {
         System.out.println("Вы заблакированны");
         currentCard.setIsBlocked(true);
+    }
+
+
+    @Override
+    public void registerUser(long phone, String password, BankCard card) {
+        BankAccount newUser = new BankAccount("Account1",bankAccounts.size(),0, card,phone,password);
+        bankAccounts.add(newUser);
+        System.out.println(bankAccounts);
+    }
+
+    @Override
+    public void ask() {
+        System.out.println("Войти в приложение - 1");
+        System.out.println("Вставить карту в банкомат - 2");
+        int command = CheckTypeInput.integer();
+        if (command != -1 ){
+            if (command == 1){
+                PhoneApp phoneApp = new PhoneApp(this);
+                phoneApp.enterInApp();
+            } else {
+                if (command == 2){
+                    terminate();
+                } else System.out.println("Неправильная команда");
+            }
+        }
+        else {
+            System.out.println("Неправильный тип данных");
+            ask();
+        }
+    }
+
+    public BankCard getCurrentCard() {
+        return currentCard;
     }
 }
